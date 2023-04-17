@@ -35,7 +35,7 @@ app.get("/", (_req, res) => {
   res.send("Yo");
 });
 
-app.post("/users/:user", async (req, res) => {
+app.get("/users/:user", async (req, res) => {
   try {
     res.send(buildResponse(tInsertNewUser(req.params.user)));
   } catch (error: any) {

@@ -78,7 +78,6 @@ const DeleteTaskStatement = db.prepare<Pick<ITask, "id" | "user">>(
 
 export interface GetConfig {
   user: IUser["id"];
-  order: string;
   query: string;
 }
 
@@ -89,7 +88,9 @@ export const tInsertNewUser = db.transaction((userId: string) => {
     id: userId,
   });
 
-  return id;
+  return {
+    id: id,
+  } as IUser;
 });
 
 export const tInsertNewTask = db.transaction(
@@ -130,20 +131,15 @@ export const tDeleteTask = db.transaction(
   }
 );
 
-export function getTasks(
-  user: string,
-  query: string = "",
-  order: string = `ORDER BY status ASC, due_date DESC`
-) {
+export function getTasks(user: string, query: string = "") {
   return db
     .prepare<GetConfig>(
       `SELECT id,title,description,status,due_date FROM tasks WHERE user=@user${
         query.length > 0 ? " AND title LIKE '%@query%'" : ""
-      } ${order}`
+      }`
     )
     .all({
       user: user,
       query: query,
-      order: order,
     }) as ITask[];
 }
