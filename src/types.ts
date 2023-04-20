@@ -3,7 +3,7 @@ export interface ITask {
   user: string;
   title: string;
   description: string;
-  status: 1 | 0;
+  status: 2 | 1 | 0;
   due_date: number;
 }
 
