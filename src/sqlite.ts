@@ -65,7 +65,7 @@ export function getTime(offset?: number) {
 }
 
 const InsertNewUserStatement = db.prepare<IUser>(
-  `INSERT INTO users (id) VALUES (@id)`
+  `REPLACE INTO users (id) VALUES (@id)`
 );
 
 const InsertNewTaskStatement = db.prepare<ITask>(
